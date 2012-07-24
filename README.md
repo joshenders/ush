@@ -1,4 +1,4 @@
-clrsh
+ush
 =====
 
 A friend asked if there was a way for him to let his friends use his linux 
@@ -8,26 +8,26 @@ curiosity. I immediately thought of [rbash](http://www.gnu.org/software/bash/man
 but the world is a dangerous place. The less access the better.
 
 The simplest way I thought of doing this was by replacing the user's login 
-shell with a program with no functionality.
+shell with a program with no functionality. Thus, useless shell was born.
 
 Building
 ========
 
 Build with gcc
 
-    gcc -o clrsh clrsh.c
+    gcc -o ush ush.c
 
 Copy somewhere
 
-    cp clrsh /some/where/
+    cp ush /some/where/
 
 Append path to `/etc/shells`
 
-    echo '/some/where/clrsh' >> /etc/shells
+    echo '/some/where/ush' >> /etc/shells
 
 Change user's shell
 
-    usermod --shell /some/where/clrsh username
+    usermod --shell /some/where/ush username
 
 Disclaimer
 ==========
