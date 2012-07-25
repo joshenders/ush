@@ -5,8 +5,8 @@
 int main() {
     char *spinChar = "|/-\\";
     int i;
-    time_t now;
-    time(&now);
+    time_t connected;
+    time(&connected);
 
     system("clear");
 
@@ -14,7 +14,7 @@ int main() {
         for (i = 0; i < 4; i++) {
             system("tput cup 0 0"); // move cursor to top left of screen
             printf("%c\t", spinChar[i]);
-            printf("Connected since %s", ctime(&now));
+            printf("Connected since %s", ctime(&connected));
             sleep(1);
         }
     }
