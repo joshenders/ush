@@ -1,12 +1,34 @@
-#include <unistd.h>
-#include <stdlib.h>
+#include <stdio.h>  // fflush(), printf()
+#include <unistd.h> // sleep(), system()
+#include <time.h>   // ctime(), time()
 
-int main() {
-    while(1) {
-        //system("clear");
-        fputs(".", stdout); // prints dots so you know it's doing something
+void spin() {
+    char spinChar[4];
+
+    spinChar[0] = '|';
+    spinChar[1] = '/';
+    spinChar[2] = '-';
+    spinChar[3] = '\\';
+    spinChar[4] = '\0';
+
+    int i;
+
+    for (i = 0; i < 4; i++) {
+        system("tput cub 1");
+        printf("%c", spinChar[i]);
         fflush(stdout);
         sleep(1);
+    }
+
+}
+
+int main() {
+    time_t now;
+    time(&now);
+
+    printf("Connected since %s", ctime(&now));
+    while(1) {
+        spin();
     }
     return(0);
 }
