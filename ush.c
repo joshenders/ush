@@ -2,33 +2,21 @@
 #include <unistd.h> // sleep(), system()
 #include <time.h>   // ctime(), time()
 
-void spin() {
-    char spinChar[4];
-
-    spinChar[0] = '|';
-    spinChar[1] = '/';
-    spinChar[2] = '-';
-    spinChar[3] = '\\';
-    spinChar[4] = '\0';
-
-    int i;
-
-    for (i = 0; i < 4; i++) {
-        system("tput cub 1");
-        printf("%c", spinChar[i]);
-        fflush(stdout);
-        sleep(1);
-    }
-
-}
-
 int main() {
+    char *spinChar = "|/-\\";
+    int i;
     time_t now;
     time(&now);
 
-    printf("Connected since %s", ctime(&now));
+    system("clear");
+
     while(1) {
-        spin();
+        for (i = 0; i < 4; i++) {
+            system("tput cup 0 0"); // move cursor to top left of screen
+            printf("%c\t", spinChar[i]);
+            printf("Connected since %s", ctime(&now));
+            sleep(1);
+        }
     }
     return(0);
 }
