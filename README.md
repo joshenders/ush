@@ -76,9 +76,11 @@ The user would then use the `-N` flag to ssh to their ssh client to connect.
 ```
 
 You may also want to enable/disable ssh keep-alive support depending on your
-network policies.
+network policies. Review the following directives in your `sshd_config` and
+your clients' `~/.ssh/config`
 
 ```
-    ClientAliveInterval 300
-    ClientAliveCountMax 0
+    ClientAliveInterval
+    ClientAliveCountMax
+    TCPKeepAlive
 ```
