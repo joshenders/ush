@@ -36,13 +36,14 @@ Disclaimer
 circumvent this. This is just a study, don't trust this to offer you any kind 
 of security.~~
 
-*Update:* In fact there is! Either via the `PermitTunnel` or `X11Forwarding`,
+**Update:** In fact there is! Either via the `PermitTunnel` or `X11Forwarding`,
 users without a "working" shell can still create an L2 tunnel or (unconfirmed)
-potentially launch X11 applications.
+potentially launch X11 applications not to mention forwarding of arbitrary
+ports.
 
 This was a fun project but a more practical implementation would be to set the
 restricted user's shell to `/bin/false` or `/bin/nologin` and then set a `Match`
-directive in your `sshd\_config` for the user or group you wish to restrict.
+directive in your `sshd_config` for the user or group you wish to restrict.
 
 ```
 Match User foo
@@ -51,7 +52,7 @@ Match User foo
     PermitTunnel no
 ```
 
-Prepend the following to the user's `authorized`_keys` file to ensure they can
+Prepend the following to the user's `authorized_keys` file to ensure they can
 only forward what is explicitly allowable.
 
 ```
@@ -59,10 +60,10 @@ command="/bin/false",no-agent-forwarding,no-pty,no-usr-rc,no-X11-forwarding,perm
 ```
 
 While you're at it, I would suggest changing the location of where users'
-`authorized\_file`s are stored to a location only root can write to. This means
+`authorized_file`s are stored to a location only root can write to. This means
 a user is forced to contact root in order to update their key. This gives root
 the opportunity to revoke the key (set the location of `RevokedKeys` in your
-`sshd\_config`) and ask if the user is storing their key encrypted.
+`sshd_config`) and ask if the user is storing their key encrypted.
 
 ```
 AuthorizedKeysFile /etc/ssh/authorized_keys/%u.pub
