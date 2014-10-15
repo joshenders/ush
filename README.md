@@ -32,6 +32,52 @@ Change user's shell
 Disclaimer
 ==========
 
-I imagine there's some ssh client configuration that could be used to 
+~~I imagine there's some ssh client configuration that could be used to 
 circumvent this. This is just a study, don't trust this to offer you any kind 
-of security.
+of security.~~
+
+*Update:* In fact there is! Either via the `PermitTunnel` or `X11Forwarding`,
+users without a "working" shell can still create an L2 tunnel or (unconfirmed)
+potentially launch X11 applications.
+
+This was a fun project but a more practical implementation would be to set the
+restricted user's shell to `/bin/false` or `/bin/nologin` and then set a `Match`
+directive in your `sshd\_config` for the user or group you wish to restrict.
+
+```
+Match User foo
+    AllowTcpForwarding yes
+    X11Forwarding no
+    PermitTunnel no
+```
+
+Prepend the following to the user's `authorized`_keys` file to ensure they can
+only forward what is explicitly allowable.
+
+```
+command="/bin/false",no-agent-forwarding,no-pty,no-usr-rc,no-X11-forwarding,permitopen="127.0.0.1:8080" KEY_TYPE KEY COMMENT
+```
+
+While you're at it, I would suggest changing the location of where users'
+`authorized\_file`s are stored to a location only root can write to. This means
+a user is forced to contact root in order to update their key. This gives root
+the opportunity to revoke the key (set the location of `RevokedKeys` in your
+`sshd\_config`) and ask if the user is storing their key encrypted.
+
+```
+AuthorizedKeysFile /etc/ssh/authorized_keys/%u.pub
+```
+
+The user would then use the `-N` flag to ssh to their ssh client to connect.
+
+```
+     -N      Do not execute a remote command.  This is useful for just forwarding ports (protocol version 2 only).
+```
+
+You may also want to enable/disable ssh keep-alive support depending on your
+network policies.
+
+```
+    ClientAliveInterval 300
+    ClientAliveCountMax 0
+```
